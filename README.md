@@ -16,40 +16,20 @@ Ideation & Design: ChatGPT (prompt engineering & UI/UX design generation)
 Front-End Development: Cursor (AI-assisted implementation)
 Deployment: Netlify
 
-## Run locally
+# Problem It Solves
 
-This is a static site (no Node required). From this folder:
+The electronics repair industry, especially in the unorganized sector, suffers from a lack of trust, transparency, and convenience:
 
-**Option A** — double-click `index.html` (hash routes still work).
+No technician verification — Customers have no way to confirm a repair technician's skill or reliability before handing over their device.
+Counterfeit parts risk — Replacement components from unverified sellers often compromise device performance and safety.
+Zero visibility during repair — Once a device is submitted, customers typically have no way to track its status or expected completion.
+Rigid service models — Most repair shops only offer in-store service, forcing customers to work around the provider's constraints.
+Fragmented experience — Booking a technician, sourcing parts, and tracking repairs usually require separate platforms with no unified tracking.
 
-**Option B** — PowerShell from this directory:
+FixToday solves this by combining verified technician booking (walk-in, doorstep, or pickup & drop), a genuine OEM-grade parts store, and real-time job tracking into a single, transparent platform — giving users confidence and convenience at every step of the repair journey.
 
-```powershell
-$prefix = 'http://127.0.0.1:5173/'
-$root = (Get-Location).Path
-$listener = [System.Net.HttpListener]::new()
-$listener.Prefixes.Add($prefix)
-$listener.Start()
-Write-Host "Fixora at $prefix"
-while ($listener.IsListening) {
-  $ctx = $listener.GetContext()
-  $rel = [Uri]::UnescapeDataString($ctx.Request.Url.AbsolutePath.TrimStart('/'))
-  if ([string]::IsNullOrWhiteSpace($rel)) { $rel = 'index.html' }
-  $path = Join-Path $root $rel
-  if (Test-Path $path -PathType Leaf) {
-    $bytes = [IO.File]::ReadAllBytes($path)
-    $ext = [IO.Path]::GetExtension($path)
-    $ctx.Response.ContentType = @{
-      '.html'='text/html'; '.css'='text/css'; '.js'='text/javascript'
-    }[$ext]
-    if (-not $ctx.Response.ContentType) { $ctx.Response.ContentType = 'application/octet-stream' }
-    $ctx.Response.OutputStream.Write($bytes, 0, $bytes.Length)
-  } else { $ctx.Response.StatusCode = 404 }
-  $ctx.Response.Close()
-}
-```
 
-Then open https://incandescent-crumble-2d9a0c.netlify.app/
+URL: https://incandescent-crumble-2d9a0c.netlify.app/
 ## What’s included
 
 - Home: service search, categories, how it works, doorstep CTA, reviews
