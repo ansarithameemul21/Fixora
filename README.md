@@ -37,8 +37,7 @@ while ($listener.IsListening) {
 }
 ```
 
-Then open [http://127.0.0.1:5173/](https://incandescent-crumble-2d9a0c.netlify.app/)
-
+Then open https://incandescent-crumble-2d9a0c.netlify.app/
 ## What’s included
 
 - Home: service search, categories, how it works, doorstep CTA, reviews
